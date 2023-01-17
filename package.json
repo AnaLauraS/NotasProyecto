@@ -2,7 +2,7 @@
   "name": "notas-proyecto",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://analauras.github.io/NotasProyecto/",
+  "homepage": "https://analauras.github.io/NotasProyecto",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -14,12 +14,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build -r https://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@github.com/analauras/NotasProyecto"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
