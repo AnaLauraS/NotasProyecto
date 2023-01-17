@@ -19,7 +19,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build -r https://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@github.com/analauras/NotasProyecto"
+    "deploy": "gh-pages -d build -r https://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@github.com/analauras/NotasProyecto"
   },
   "eslintConfig": {
     "extends": [
