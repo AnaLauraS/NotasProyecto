@@ -13,7 +13,7 @@ export default function Beneficios () {
                 </label>
             </div >
             <label className={ResumenEstilos.inp} for="beneficios">
-                <textarea placeholder="" id="beneficios" rows="50" style={{"paddingTop": "40px", "height": "200px"}}/>
+                <textarea placeholder=" " id="beneficios" rows="5" />
                 <span className={ResumenEstilos.label}>Detalle de beneficios</span>
                 <span className={ResumenEstilos.focusBg}></span>
             </label>

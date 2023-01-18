@@ -17,7 +17,7 @@ export default function Proceso () {
                     <input placeholder="" id="fechaActual" type="date" readOnly/>
                 </label>
                 <label className={ResumenEstilos.inpT} for="notas">
-                    <textarea placeholder="" id="notas" style={{"paddingTop": "30px", "height": "50vh"}}/>
+                    <textarea placeholder=" " id="notas" style={{"height": "50vh"}}/>
                     <span className={ResumenEstilos.label}>Notas de la reunión</span>
                     <span className={ResumenEstilos.focusBg}></span>
                 </label>

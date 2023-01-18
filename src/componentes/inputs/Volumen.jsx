@@ -14,24 +14,24 @@ export default function Volumen () {
             </div >
             <div className={ResumenEstilos.cabecera}>
             <label className={ResumenEstilos.inp2} for="op">
-                <input placeholder="" id="op" type="number"/>
+                <input placeholder=" " id="op" type="number"/>
                 <span className={ResumenEstilos.label}>Cantidad de operaciones por mes</span>
                 <span className={ResumenEstilos.focusBg}></span>
             </label>
             <label className={ResumenEstilos.inp2} for="tiempo">
-                <input placeholder="" id="tiempo" type="number"/>
+                <input placeholder=" " id="tiempo" type="number"/>
                 <span className={ResumenEstilos.label}>Tiempo dedicado por operación en min.</span>
                 <span className={ResumenEstilos.focusBg}></span>
             </label>
             <label className={ResumenEstilos.inp2} for="fte">
-                <input placeholder="" id="fte" type="text" readOnly/>
+                <input placeholder=" " id="fte" type="text" readOnly/>
                 <span className={ResumenEstilos.label}>FTEs calculados</span>
                 <span className={ResumenEstilos.focusBg}></span>
             </label>
             </div>
 
             <label className={ResumenEstilos.inp} for="obs">
-                <input placeholder="" id="obs" type="text"/>
+                <input placeholder=" " id="obs" type="text"/>
                 <span className={ResumenEstilos.label}>Observaciones</span>
                 <span className={ResumenEstilos.focusBg}></span>
             </label>

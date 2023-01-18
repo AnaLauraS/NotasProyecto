@@ -25,14 +25,13 @@
     text-transform: uppercase;
     font-weight: 600;
     letter-spacing: 2px;
-    background: transparent;
+    background: rgb(61, 106, 255);
     color: #fff;
     overflow: hidden;
     box-shadow: 0 0 0 0 transparent;
     -webkit-transition: all 0.2s ease-in;
     -moz-transition: all 0.2s ease-in;
     transition: all 0.2s ease-in;
-    box-shadow: 0 0 30px 5px rgba(236, 212, 0, 0.692);
   }
   
   .boton:hover, .botonG:hover {
