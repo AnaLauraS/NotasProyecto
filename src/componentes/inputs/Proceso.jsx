@@ -12,10 +12,10 @@ export default function Proceso () {
                 </label>
             </div>
             <div className={ResumenEstilos.registroNotas}>
-                <label className={ResumenEstilos.fecha} for="fechaActual">
+                {/* <label className={ResumenEstilos.fecha} for="fechaActual">
                     <span className={ResumenEstilos.fecha}>Fecha de la reunión</span>
                     <input placeholder="" id="fechaActual" type="date" readOnly/>
-                </label>
+                </label> */}
                 <label className={ResumenEstilos.inpT} for="notas">
                     <textarea placeholder=" " id="notas" style={{"height": "50vh"}}/>
                     <span className={ResumenEstilos.label}>Notas de la reunión</span>

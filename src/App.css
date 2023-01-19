@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 .App-header {
@@ -11,9 +13,9 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  gap: 15px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  gap: 25px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .App-link {
@@ -21,14 +23,11 @@
 }
 
 .App-principal {
-  /* display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  width: 100vw; */
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 3%;
   align-items: stretch;
+  width: 90%;
 }
 
 .App-detalles {

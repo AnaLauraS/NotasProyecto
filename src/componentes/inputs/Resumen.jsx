@@ -1,7 +1,38 @@
-import React from "react"
+import { React, useState, useEffect, useContext } from "react"
 import ResumenEstilos from './ResumenStyle.module.css'
+import { ArchivoContext } from "../../context/ArchivoContext"
+
+
 
 export default function Resumen () {
+
+    const { archivo, setArchivo } = useContext(ArchivoContext);
+
+    function actualizarEstado (e, lugar) {
+        let informacion = e.target.value;
+        setArchivo({
+            ...archivo,
+            lugar: informacion
+            // resumen: {
+            //     ...archivo.resumen,
+            //     area: informacion
+            // }
+        })
+        console.log(archivo)
+        console.log(informacion)
+        console.log(lugar)
+    }
+
+    function prueba (lotra, texto) {
+        console.log(lotra.target.value)
+        console.log(texto)
+    }
+
+    function prueba2 (lotra) {
+        console.log(lotra.target.value)
+    }
+
+
     return <div className={ResumenEstilos.card}>
         <div className={ResumenEstilos.card2}>
             <div className={ResumenEstilos.cabecera}>
@@ -13,7 +44,7 @@ export default function Resumen () {
                 </label>
             </div>
             <label className={ResumenEstilos.inp} for="area">
-                <input id="area" type="text" placeholder=" "/>
+                <input id="area" type="text" placeholder=" " onChange={(e) => {actualizarEstado(e, archivo.proceso)}}/>
                 <span className={ResumenEstilos.label}>Área</span>
                 <span className={ResumenEstilos.focusBg}></span>
             </label>

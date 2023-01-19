@@ -23,11 +23,11 @@ export default function Volumen () {
                 <span className={ResumenEstilos.label}>Tiempo dedicado por operación en min.</span>
                 <span className={ResumenEstilos.focusBg}></span>
             </label>
-            <label className={ResumenEstilos.inp2} for="fte">
+            {/* <label className={ResumenEstilos.inp2} for="fte">
                 <input placeholder=" " id="fte" type="text" readOnly/>
                 <span className={ResumenEstilos.label}>FTEs calculados</span>
                 <span className={ResumenEstilos.focusBg}></span>
-            </label>
+            </label> */}
             </div>
 
             <label className={ResumenEstilos.inp} for="obs">
