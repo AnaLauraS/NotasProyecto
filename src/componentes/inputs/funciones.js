@@ -99,8 +99,9 @@ export function arrayVolumen () {
             volumenAingresar.push(conjunto)
         }
     }
-}
 
+    return volumenAingresar
+}
 export function nuevaNota () {
     let nuevaNota = document.querySelector('#notas');
     if (nuevaNota.value!==""){

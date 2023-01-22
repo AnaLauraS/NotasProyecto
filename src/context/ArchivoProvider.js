@@ -25,9 +25,9 @@ export const ArchivoProvider = ({ children }) => {
         detalle: ""
       },
       notas: [ {
-        fecha: "",
-        notas: ""
-      } ]
+        fecha: "", 
+        nota:""
+      }]
     });
 
   return (
