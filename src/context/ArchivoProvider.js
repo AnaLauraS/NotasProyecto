@@ -9,7 +9,7 @@ export const ArchivoProvider = ({ children }) => {
       resumen: {
         ultimaAct: "",
         area: "",
-        ubicacionMapaSistemas: "",
+        ubicacionMapaProceso: "",
         usuarios: "",
         sponsor: "",
         BRM: ""
