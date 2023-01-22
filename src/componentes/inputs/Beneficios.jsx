@@ -18,7 +18,12 @@ export default function Beneficios () {
                 </label>
             </div >
             <label className={ResumenEstilos.inp} for="beneficios">
-                <textarea placeholder=" " id="beneficios" rows="5" onChange={(e) => {setArchivo({...archivo, beneficios: {...archivo.beneficios, detalle: e.target.value}}); actualizarFecha("fechaBeneficios")}}/>
+                <textarea placeholder=" " id="beneficios" rows="5" onChange={(e) => {
+                    actualizarFecha("fechaBeneficios");
+                    setArchivo({...archivo, beneficios: {
+                        detalle: e.target.value,
+                        ultimaAct: document.querySelector('#fechaBeneficios').value}});
+                    }}/>
                 <span className={ResumenEstilos.label}>Detalle de beneficios</span>
                 <span className={ResumenEstilos.focusBg}></span>
             </label>

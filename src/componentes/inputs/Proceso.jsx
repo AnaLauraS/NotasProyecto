@@ -17,7 +17,7 @@ export default function Proceso () {
             </div>
             <div className={ResumenEstilos.registroNotas}>
                 <label className={ResumenEstilos.inpT} for="notas">
-                    <textarea placeholder=" " id="notas" style={{"height": "50vh"}}/>
+                    <textarea placeholder=" " id="notas" style={{"height": "50vh"}} />
                     <span className={ResumenEstilos.label}>Notas de la reunión</span>
                     <span className={ResumenEstilos.focusBg}></span>
                 </label>
