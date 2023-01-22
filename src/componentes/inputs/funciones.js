@@ -8,6 +8,9 @@ export function agregarVolumen () {
 
     let divCabecera = Object.assign(document.createElement('div'),
     {className: "cabecera"});
+
+    let separador = Object.assign(document.createElement('div'),
+    {className: "conj"});
     
     let label = Object.assign(document.createElement('label'),
     {className: "inp2",
@@ -60,7 +63,8 @@ export function agregarVolumen () {
     let span22 = Object.assign(document.createElement('span'),
     {className: "focusBg"})
 
-    cuadroVolumen.appendChild(divCabecera)
+    cuadroVolumen.appendChild(separador)
+    separador.appendChild(divCabecera)
     divCabecera.appendChild(label)
     label.appendChild(input)
     label.appendChild(span1)
@@ -69,8 +73,41 @@ export function agregarVolumen () {
     label2.appendChild(input2)
     label2.appendChild(span3)
     label2.appendChild(span21)
-    cuadroVolumen.appendChild(label3)
+    separador.appendChild(label3)
     label3.appendChild(input3)
     label3.appendChild(span4)
     label3.appendChild(span22)
+}
+
+// para completar el context, tengo que recuperar todos los items de volumetria y todos los items de notas.
+export function arrayVolumen () {
+    let arrayVol = document.querySelectorAll('#conjuntoVolumen > div.conj');
+    let volumenAingresar = []
+    
+    for (let i=0; i<arrayVol.length; i++){
+        
+        let valorCantidad = arrayVol[i].children[0].querySelector('#op').value;
+        let valorMinutos = arrayVol[i].children[0].querySelector('#tiempo').value;
+        let valorObs = arrayVol[i].children[1].querySelector('#obs').value;
+
+        if (valorCantidad!=="" | valorMinutos!=="" | valorObs!=="") {
+            let conjunto = {
+                cantidadEjecuciones: valorCantidad,
+                tiempoDedicado: valorMinutos,
+                observaciones: valorObs
+            }
+            volumenAingresar.push(conjunto)
+        }
+    }
+}
+
+export function nuevaNota () {
+    let nuevaNota = document.querySelector('#notas');
+    if (nuevaNota.value!==""){
+        let notaAingresar = {
+            fecha: new Date(Date.now()).toISOString().split('T')[0],
+            notas: nuevaNota.value
+        }
+        return notaAingresar
+    }
 }
