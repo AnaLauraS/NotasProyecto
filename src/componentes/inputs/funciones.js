@@ -112,3 +112,18 @@ export function nuevaNota () {
         return notaAingresar
     }
 }
+
+// verifico si ya existe la nota
+export function notaDuplicada(array, nota) {
+    if (array[array.length-1].notas===nota.notas){
+        return true
+    } else return false
+}
+
+// verifico que tenga nombre el proceso para que no haya un error en la generacion del archivo
+export function validacionNombre () {
+    let nombre = document.querySelector('#nombreProceso').value;
+    if (nombre.trim()!=="") {
+        return true
+    } else return false;
+}
