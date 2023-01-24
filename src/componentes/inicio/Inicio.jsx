@@ -38,6 +38,18 @@ export default function Inicio () {
                 })
             }
         }
+
+        // descargar archivo
+        let archivoJson = JSON.stringify(archivo);
+        let nombreArchivo = archivo.proceso;
+        
+        const a = document.createElement("a");
+        const archivoA = new Blob([archivoJson], { type: 'text/plain' });
+        const url = URL.createObjectURL(archivoA);
+        a.href = url;
+        a.download = nombreArchivo+".txt";
+        a.click();
+        URL.revokeObjectURL(url);
     }
 
     return <div className={InicioEstilos.divisor}>
