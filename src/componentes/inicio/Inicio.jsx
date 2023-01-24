@@ -61,9 +61,20 @@ export default function Inicio () {
         }
     }
 
-    return <div className={InicioEstilos.divisor}>
-        <button className={InicioEstilos.boton}>Nuevo proyecto</button>
-        <button className={InicioEstilos.botonG} onClick={exportar}>guardar</button>
-        <button className={InicioEstilos.boton}>Abrir proyecto</button>
-    </div>
+    if (archivo.proceso===null) {
+        return (
+            <div className={InicioEstilos.divisor}>
+                <button className={InicioEstilos.botonG} onClick={()=>{setArchivo({...archivo, proceso:""})}}>Nuevo proyecto</button>
+                <button className={InicioEstilos.botonG}>Abrir proyecto</button>
+            </div>
+        )
+    } else {
+        return (
+            <div className={InicioEstilos.divisor}>
+                <button className={InicioEstilos.boton}>Nuevo proyecto</button>
+                <button className={InicioEstilos.botonG} onClick={exportar}>guardar</button>
+                <button className={InicioEstilos.boton}>Abrir proyecto</button>
+            </div>
+        )
+    }    
 }

@@ -6,7 +6,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: calc(100vh - 40px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,6 +28,7 @@
   gap: 3%;
   align-items: stretch;
   width: 90%;
+  animation: desplazamiento 0.8s 0s linear;
 }
 
 .App-detalles {
@@ -42,4 +43,13 @@ h1 {
 
 h2 {
   font-size: 1.4rem;
+}
+
+@keyframes desplazamiento {
+  from {
+    margin-top:100vh
+  }
+  to {
+    margin-top: 0
+  }
 }

@@ -1,10 +1,8 @@
 import { ArchivoProvider } from "./context/ArchivoProvider";
+import { React } from "react"
 import './App.css';
 import Inicio from './componentes/inicio/Inicio';
-import Resumen from "./componentes/inputs/Resumen";
-import Volumen from "./componentes/inputs/Volumen";
-import Beneficios from "./componentes/inputs/Beneficios";
-import Proceso from "./componentes/inputs/Proceso";
+import Inputs from "./componentes/inicio/Inputs";
 
 function App() {
   return (
@@ -12,14 +10,7 @@ function App() {
       <div className="App">
         <div className="App-header">
           <Inicio/>
-          <div className="App-principal">
-            <Proceso/>
-            <div className="App-detalles">
-              <Resumen/>
-              <Volumen/>
-              <Beneficios/>
-            </div>
-          </div>
+          <Inputs/>
         </div>
       </div>
     </ArchivoProvider>
