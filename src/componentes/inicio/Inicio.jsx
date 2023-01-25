@@ -1,5 +1,5 @@
 import InicioEstilos from './InicioStyle.module.css'
-import { arrayVolumen, notaDuplicada, nuevaNota, resetearInputs, validacionNombre } from "../inputs/funciones"
+import { arrayVolumen, notaDuplicada, nuevaNota, obtenerJson, resetearInputs, validacionNombre } from "../inputs/funciones"
 import { ArchivoContext, GuardarContext } from "../../context/ArchivoContext";
 import { React, useContext } from "react"
 import Swal from 'sweetalert2'
@@ -12,7 +12,15 @@ export default function Inicio () {
 
     function exportar () {
         if (validacionNombre()===false) {
-            alert ("No te olvidés de ponerle nombre al proceso para guardarlo!")
+            const MySwal = withReactContent(Swal)
+            MySwal.fire({
+                title: <p>¡El proyecto no tiene nombre!</p>,
+                text: 'Ponele uno así lo guardamos',
+                icon: 'warning',
+                background: 'black',
+                didClose: ()=>{document.querySelector('#nombreProceso').focus()}
+            })
+            
         } else {
             let volumenAingresar = arrayVolumen();
             let notaAingresar = nuevaNota();
@@ -91,6 +99,27 @@ export default function Inicio () {
           });
     }
 
+    // cargar context desde archivo
+    function cargaContextArchivo(dato) {
+        setArchivo({
+            proceso: dato.proceso,
+            resumen: dato.resumen,
+            volumen: dato.volumen,
+            beneficios: dato.beneficios,
+            notas: dato.notas
+        });
+        document.querySelector('#nombreProceso').value = dato.proceso;
+        document.querySelector('#fechaResumen').value = dato.resumen.ultimaAct;
+        document.querySelector('#area').value = dato.resumen.area;
+        document.querySelector('#ubi').value = dato.resumen.ubicacionMapaProceso;
+        document.querySelector('#usuarios').value = dato.resumen.usuarios;
+        document.querySelector('#sponsor').value = dato.resumen.sponsor;
+        document.querySelector('#brm').value = dato.resumen.BRM;
+        document.querySelector('#fechaBeneficios').value = dato.beneficios.ultimaAct;
+        document.querySelector('#beneficios').value = dato.beneficios.detalle;
+        // hacer lo de volumen y lo de notas anteriores
+    }
+
     // si no hay cambios o si no le importa los cambios, abro un nuevo proyecto
     function crearNuevo() {
         if (guardar===true){
@@ -117,7 +146,32 @@ export default function Inicio () {
                     setGuardar(false)
                 }
             })
+        } else {
+            resetearInputs()
+            reseteoContextArchivo()
         }
+    }
+
+    // funcion para cargar json existente
+    function prueb () {
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.accept= 'text/plain'
+        input.click();
+        input.onchange= () => {
+            let json = input.files[0];
+            if (!json) return;
+            if (json.type==="text/plain") {
+                var lector = new FileReader();
+                lector.onload = function(e) {
+                    var contenido = JSON.parse(e.target.result);
+                    cargaContextArchivo(contenido);
+                    console.log(archivo);
+                };
+                lector.readAsText(json);
+            } else return "error";
+        }
+
     }
 
 
@@ -133,7 +187,7 @@ export default function Inicio () {
             <div className={InicioEstilos.divisor}>
                 <button className={InicioEstilos.boton} onClick={crearNuevo}>Nuevo proyecto</button>
                 <button className={InicioEstilos.botonG} onClick={exportar}>guardar</button>
-                <button className={InicioEstilos.boton}>Abrir proyecto</button>
+                <button className={InicioEstilos.boton} onClick={prueb}>Abrir proyecto</button>
             </div>
         )
     }    
