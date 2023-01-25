@@ -1,11 +1,12 @@
-import { React, useState, useEffect, useContext } from "react"
+import { React, useContext } from "react"
 import ResumenEstilos from './ResumenStyle.module.css'
-import { ArchivoContext } from "../../context/ArchivoContext"
+import { ArchivoContext, GuardarContext } from "../../context/ArchivoContext"
 import {actualizarFecha} from "./funciones";
 
 export default function Beneficios () {
 
     const { archivo, setArchivo } = useContext(ArchivoContext);
+    const { setGuardar } = useContext(GuardarContext);
 
     return <div className={ResumenEstilos.card}>
         <div className={ResumenEstilos.card2}>
@@ -23,6 +24,7 @@ export default function Beneficios () {
                     setArchivo({...archivo, beneficios: {
                         detalle: e.target.value,
                         ultimaAct: document.querySelector('#fechaBeneficios').value}});
+                    setGuardar(true)
                     }}/>
                 <span className={ResumenEstilos.label}>Detalle de beneficios</span>
                 <span className={ResumenEstilos.focusBg}></span>

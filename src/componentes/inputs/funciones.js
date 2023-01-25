@@ -3,7 +3,9 @@ export function actualizarFecha(fecha) {
     cuadro.value = new Date(Date.now()).toISOString().split('T')[0];
 }
 
+
 export function agregarVolumen () {
+
     let cuadroVolumen = document.querySelector('#conjuntoVolumen');
 
     let divCabecera = Object.assign(document.createElement('div'),
@@ -126,4 +128,16 @@ export function validacionNombre () {
     if (nombre.trim()!=="") {
         return true
     } else return false;
+}
+
+// limpio todos los inputs
+export function resetearInputs () {
+    let inputs = document.querySelectorAll('input')
+    for (let i=0; i<inputs.length; i++){
+        inputs[i].value=""
+    }
+    let inputs2 = document.querySelectorAll('textarea')
+    for (let i=0; i<inputs2.length; i++){
+        inputs2[i].value=""
+    }
 }

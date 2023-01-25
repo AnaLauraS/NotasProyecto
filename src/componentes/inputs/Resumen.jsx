@@ -1,6 +1,6 @@
-import { React, useState, useEffect, useContext } from "react"
+import { React, useContext } from "react"
 import ResumenEstilos from './ResumenStyle.module.css'
-import { ArchivoContext } from "../../context/ArchivoContext"
+import { ArchivoContext, GuardarContext } from "../../context/ArchivoContext"
 import {actualizarFecha} from "./funciones";
 
 
@@ -8,6 +8,7 @@ import {actualizarFecha} from "./funciones";
 export default function Resumen () {
 
     const { archivo, setArchivo } = useContext(ArchivoContext);
+    const { setGuardar } = useContext(GuardarContext);
 
     return <div className={ResumenEstilos.card}>
         <div className={ResumenEstilos.card2}>
@@ -27,7 +28,8 @@ export default function Resumen () {
                             ...archivo.resumen, 
                             area: e.target.value,
                             ultimaAct: document.querySelector('#fechaResumen').value
-                        }})
+                        }});
+                    setGuardar(true)
                 }}/>
                 <span className={ResumenEstilos.label}>Área</span>
                 <span className={ResumenEstilos.focusBg}></span>
@@ -42,6 +44,7 @@ export default function Resumen () {
                             ubicacionMapaProceso: e.target.value,
                             ultimaAct: document.querySelector('#fechaResumen').value
                         }})
+                    setGuardar(true)
                     }}/>
                 <span className={ResumenEstilos.label}>Ubicación en mapa de procesos</span>
                 <span className={ResumenEstilos.focusBg}></span>
@@ -56,6 +59,7 @@ export default function Resumen () {
                             usuarios: e.target.value,
                             ultimaAct: document.querySelector('#fechaResumen').value
                         }})
+                    setGuardar(true)
                     }}/>
                 <span className={ResumenEstilos.label}>Usuarios</span>
                 <span className={ResumenEstilos.focusBg}></span>
@@ -70,6 +74,7 @@ export default function Resumen () {
                             sponsor: e.target.value,
                             ultimaAct: document.querySelector('#fechaResumen').value
                         }})
+                    setGuardar(true)
                     }}/>
                 <span className={ResumenEstilos.label}>Sponsor</span>
                 <span className={ResumenEstilos.focusBg}></span>
@@ -84,6 +89,7 @@ export default function Resumen () {
                             BRM: e.target.value,
                             ultimaAct: document.querySelector('#fechaResumen').value
                         }})
+                    setGuardar(true)
                     }}/>
                 <span className={ResumenEstilos.label}>BRM</span>
                 <span className={ResumenEstilos.focusBg}></span>

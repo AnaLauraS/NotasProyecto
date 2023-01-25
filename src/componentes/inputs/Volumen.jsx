@@ -1,9 +1,12 @@
-import { React, useState, useEffect, useContext } from "react"
+import { React, useContext } from "react"
 import ResumenEstilos from './ResumenStyle.module.css'
 import {actualizarFecha, agregarVolumen} from "./funciones"
+import { GuardarContext } from "../../context/ArchivoContext"
 import './estilos.css'
 
 export default function Volumen () {
+
+    const { setGuardar } = useContext(GuardarContext);
 
     return <div className={ResumenEstilos.card}>
         <div className={ResumenEstilos.card2}>
@@ -22,19 +25,19 @@ export default function Volumen () {
                 <div class="conj">
                     <div className={ResumenEstilos.cabecera}>
                         <label className={ResumenEstilos.inp2} for="op">
-                            <input placeholder=" " id="op" type="number" onChange={()=>{actualizarFecha("fechaVolumen")}}/>
+                            <input placeholder=" " id="op" type="number" onChange={()=>{actualizarFecha("fechaVolumen"); setGuardar(true)}}/>
                             <span className={ResumenEstilos.label}>Cantidad de operaciones por mes</span>
                             <span className={ResumenEstilos.focusBg}></span>
                         </label>
                         <label className={ResumenEstilos.inp2} for="tiempo">
-                            <input placeholder=" " id="tiempo" type="number" onChange={()=>{actualizarFecha("fechaVolumen")}}/>
+                            <input placeholder=" " id="tiempo" type="number" onChange={()=>{actualizarFecha("fechaVolumen"); setGuardar(true)}}/>
                             <span className={ResumenEstilos.label}>Tiempo dedicado por operación en min.</span>
                             <span className={ResumenEstilos.focusBg}></span>
                         </label>
                     </div>
 
                     <label className={ResumenEstilos.inpObs} for="obs">
-                        <input placeholder=" " id="obs" type="text" onChange={()=>{actualizarFecha("fechaVolumen")}}/>
+                        <input placeholder=" " id="obs" type="text" onChange={()=>{actualizarFecha("fechaVolumen"); setGuardar(true)}}/>
                         <span className={ResumenEstilos.label}>Observaciones</span>
                         <span className={ResumenEstilos.focusBg}></span>
                     </label>
