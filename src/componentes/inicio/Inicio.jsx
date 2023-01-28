@@ -1,5 +1,5 @@
 import InicioEstilos from './InicioStyle.module.css'
-import { arrayVolumen, notaDuplicada, nuevaNota, obtenerJson, resetearInputs, validacionNombre } from "../inputs/funciones"
+import { arrayVolumen, notaDuplicada, nuevaNota, resetearInputs, validacionNombre } from "../inputs/funciones"
 import { ArchivoContext, GuardarContext } from "../../context/ArchivoContext";
 import { React, useContext } from "react"
 import Swal from 'sweetalert2'
@@ -11,8 +11,8 @@ export default function Inicio () {
     const { guardar, setGuardar } = useContext(GuardarContext);
 
     function exportar () {
+        const MySwal = withReactContent(Swal)
         if (validacionNombre()===false) {
-            const MySwal = withReactContent(Swal)
             MySwal.fire({
                 title: <p>¡El proyecto no tiene nombre!</p>,
                 text: 'Ponele uno así lo guardamos',
@@ -34,6 +34,8 @@ export default function Inicio () {
                     }
                 })
             }
+            console.log("se ejecuta1")
+            console.log(archivo.volumen)
 
             if (notaDuplicada(archivo.notas, notaAingresar)===false) {
                 if (notaAingresar!==undefined){
@@ -53,11 +55,14 @@ export default function Inicio () {
                     }
                 }
             }
+            console.log("se ejecuta2")
+            console.log(archivo.volumen)
 
             // descargar archivo
             let archivoJson = JSON.stringify(archivo);
             let nombreArchivo = archivo.proceso;
-            
+            console.log("se ejecuta3")
+            console.log(archivo.volumen)
             const a = document.createElement("a");
             const archivoA = new Blob([archivoJson], { type: 'text/plain' });
             const url = URL.createObjectURL(archivoA);
@@ -67,6 +72,11 @@ export default function Inicio () {
             URL.revokeObjectURL(url);
 
             setGuardar(false)
+            MySwal.fire({
+                title: <p>Proyecto guardado con el nombre "{nombreArchivo}.txt"</p>,
+                background: 'black',
+            })
+            return true;
         }
     }
 
@@ -137,9 +147,10 @@ export default function Inicio () {
             })
             .then((result)=>{
                 if (result.isConfirmed) {
-                    exportar()
-                    resetearInputs()
-                    reseteoContextArchivo()
+                    if (exportar()===true){
+                        resetearInputs()
+                        reseteoContextArchivo()
+                    }
                 } else if (result.isDenied) {
                     resetearInputs()
                     reseteoContextArchivo()
@@ -179,7 +190,7 @@ export default function Inicio () {
         return (
             <div className={InicioEstilos.divisor}>
                 <button className={InicioEstilos.botonG} onClick={()=>{setArchivo({...archivo, proceso:""})}}>Nuevo proyecto</button>
-                <button className={InicioEstilos.botonG}>Abrir proyecto</button>
+                <button className={InicioEstilos.botonG} onClick={prueb}>Abrir proyecto</button>
             </div>
         )
     } else {

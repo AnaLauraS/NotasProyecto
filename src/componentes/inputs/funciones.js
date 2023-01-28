@@ -106,13 +106,15 @@ export function arrayVolumen () {
 }
 export function nuevaNota () {
     let nuevaNota = document.querySelector('#notas');
-    if (nuevaNota.value!==""){
+    if (nuevaNota.value!=="" | nuevaNota.value!== undefined){
         let notaAingresar = {
             fecha: new Date(Date.now()).toISOString().split('T')[0],
             notas: nuevaNota.value
         }
         return notaAingresar
-    }
+    } else {
+        return undefined;
+    } 
 }
 
 // verifico si ya existe la nota
