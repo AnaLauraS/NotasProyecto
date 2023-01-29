@@ -106,6 +106,7 @@ export function arrayVolumen () {
 }
 export function nuevaNota () {
     let nuevaNota = document.querySelector('#notas');
+    if (nuevaNota){
     if (nuevaNota.value!=="" | nuevaNota.value!== undefined){
         let notaAingresar = {
             fecha: new Date(Date.now()).toISOString().split('T')[0],
@@ -114,14 +115,15 @@ export function nuevaNota () {
         return notaAingresar
     } else {
         return undefined;
-    } 
+    }}
 }
 
 // verifico si ya existe la nota
 export function notaDuplicada(array, nota) {
+    if ( nota){
     if (array[array.length-1].notas===nota.notas){
         return true
-    } else return false
+    } else return false}
 }
 
 // verifico que tenga nombre el proceso para que no haya un error en la generacion del archivo

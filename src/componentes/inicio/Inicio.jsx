@@ -4,48 +4,61 @@ import { ArchivoContext, GuardarContext } from "../../context/ArchivoContext";
 import { React, useContext } from "react"
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Inicio () {
 
     const { archivo, setArchivo } = useContext(ArchivoContext);
     const { guardar, setGuardar } = useContext(GuardarContext);
+    const [ esperandoGuardar, setEsperandoGuardar ] = useState(false);
+    const [ listoParaGuardar, setListoParaGuardar ] = useState(false);
+    const [ podemosBorrar, setPodemosBorrar ] = useState(false);
+    const MySwal = withReactContent(Swal);
 
-    function exportar () {
-        const MySwal = withReactContent(Swal)
-        if (validacionNombre()===false) {
-            MySwal.fire({
-                title: <p>¡El proyecto no tiene nombre!</p>,
-                text: 'Ponele uno así lo guardamos',
-                icon: 'warning',
-                background: 'black',
-                didClose: ()=>{document.querySelector('#nombreProceso').focus()}
-            })
-            
-        } else {
-            let volumenAingresar = arrayVolumen();
-            let notaAingresar = nuevaNota();
-                
-            if (volumenAingresar.length>0){
-                setArchivo({
-                    ...archivo,
-                    volumen: {
-                        ultimaAct: new Date(Date.now()).toISOString().split('T')[0],
-                        volumen: volumenAingresar
-                    }
-                })
-            }
-            console.log("se ejecuta1")
-            console.log(archivo.volumen)
-
-            if (notaDuplicada(archivo.notas, notaAingresar)===false) {
-                if (notaAingresar!==undefined){
-                    if (archivo.notas[0].fecha!==""){
-                        let arrayNotas = []
-                        arrayNotas = archivo.notas;
-                        arrayNotas.push(notaAingresar);
+    // useEffect y funciones para guardar archivos
+    useEffect(() =>{
+        let volumenAingresar = arrayVolumen();
+        if (volumenAingresar.length>0){
+            setArchivo({
+                ...archivo,
+                volumen: {
+                    ultimaAct: new Date(Date.now()).toISOString().split('T')[0],
+                    volumen: volumenAingresar
+                }
+            }); 
+        }
+        let notaAingresar = nuevaNota();
+        if (notaDuplicada(archivo.notas, notaAingresar)===false) {
+            if (notaAingresar!==undefined){
+                if (archivo.notas[0].fecha!=="" & notaAingresar.notas!==""){
+                    let arrayNotas = []
+                    arrayNotas = archivo.notas;
+                    arrayNotas.push(notaAingresar);
+                    if (volumenAingresar.length>0){
+                        setArchivo({
+                            ...archivo,
+                            volumen: {
+                                ultimaAct: new Date(Date.now()).toISOString().split('T')[0],
+                                volumen: volumenAingresar
+                            },
+                            notas: arrayNotas
+                        })
+                    } else {
                         setArchivo({
                             ...archivo,
                             notas: arrayNotas
+                        })
+                    }                    
+                } else if (archivo.notas[0].fecha==="" & notaAingresar.notas!=="") {
+                    if (volumenAingresar.length>0){
+                        setArchivo({
+                            ...archivo,
+                            volumen: {
+                                ultimaAct: new Date(Date.now()).toISOString().split('T')[0],
+                                volumen: volumenAingresar
+                            },
+                            notas: [notaAingresar]
                         })
                     } else {
                         setArchivo({
@@ -55,14 +68,15 @@ export default function Inicio () {
                     }
                 }
             }
-            console.log("se ejecuta2")
-            console.log(archivo.volumen)
+        }
+        setListoParaGuardar(!listoParaGuardar)       
+    }, [esperandoGuardar])
 
-            // descargar archivo
+    useEffect(() =>{
+        if (guardar===true | archivo.volumen.ultimaAct === new Date(Date.now()).toISOString().split('T')[0]){
             let archivoJson = JSON.stringify(archivo);
             let nombreArchivo = archivo.proceso;
-            console.log("se ejecuta3")
-            console.log(archivo.volumen)
+
             const a = document.createElement("a");
             const archivoA = new Blob([archivoJson], { type: 'text/plain' });
             const url = URL.createObjectURL(archivoA);
@@ -76,8 +90,34 @@ export default function Inicio () {
                 title: <p>Proyecto guardado con el nombre "{nombreArchivo}.txt"</p>,
                 background: 'black',
             })
-            return true;
+
+            if (podemosBorrar){
+                resetearInputs()
+                reseteoContextArchivo()
+                setPodemosBorrar(false);
+            }
         }
+    }, [listoParaGuardar])
+
+    function exportar () {
+        if (guardar===false & document.querySelector('#fechaVolumen').value !== new Date(Date.now()).toISOString().split('T')[0]){
+            MySwal.fire({
+                title: <p>No tenés cambios para guardar</p>,
+                background: 'black',
+            })
+        } else {
+            if (validacionNombre()===false) {
+                MySwal.fire({
+                    title: <p>¡El proyecto no tiene nombre!</p>,
+                    text: 'Ponele uno así lo guardamos',
+                    icon: 'warning',
+                    background: 'black',
+                    didClose: ()=>{document.querySelector('#nombreProceso').focus()}
+                })
+            } else {
+                setEsperandoGuardar(!esperandoGuardar)
+            }
+        } 
     }
 
     // reseteo del context archivo
@@ -133,7 +173,6 @@ export default function Inicio () {
     // si no hay cambios o si no le importa los cambios, abro un nuevo proyecto
     function crearNuevo() {
         if (guardar===true){
-            const MySwal = withReactContent(Swal)
             MySwal.fire({
                 title: <p>Tenes cambios sin guardar. ¿Guardamos?</p>,
                 icon: 'question',
@@ -147,10 +186,8 @@ export default function Inicio () {
             })
             .then((result)=>{
                 if (result.isConfirmed) {
-                    if (exportar()===true){
-                        resetearInputs()
-                        reseteoContextArchivo()
-                    }
+                    setPodemosBorrar(true);
+                    exportar()
                 } else if (result.isDenied) {
                     resetearInputs()
                     reseteoContextArchivo()
@@ -197,7 +234,7 @@ export default function Inicio () {
         return (
             <div className={InicioEstilos.divisor}>
                 <button className={InicioEstilos.boton} onClick={crearNuevo}>Nuevo proyecto</button>
-                <button className={InicioEstilos.botonG} onClick={exportar}>guardar</button>
+                <button className={InicioEstilos.botonG} onClick={()=>exportar()}>guardar</button>
                 <button className={InicioEstilos.boton} onClick={prueb}>Abrir proyecto</button>
             </div>
         )
