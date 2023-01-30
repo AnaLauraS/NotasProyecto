@@ -1,8 +1,9 @@
 import { React, useContext } from "react"
 import { ArchivoContext, GuardarContext } from "../../context/ArchivoContext"
+import NotasAnteriores from "./NotasAnteriores";
 import ResumenEstilos from './ResumenStyle.module.css'
 
-export default function Proceso () {
+export default function Proceso ({notasViejas}) {
 
     const { archivo, setArchivo } = useContext(ArchivoContext);
     const { setGuardar } = useContext(GuardarContext);
@@ -26,8 +27,13 @@ export default function Proceso () {
 
             <hr />
             
-            <p>Aun no existe historial de reuniones</p>
-            {/*aca va el elemento hijo que levanta todo lo anterior*/}
+            <div id="notasAnteriores" className={ResumenEstilos.notasAnteriores}>
+                {notasViejas.length===1 & notasViejas[0].fecha===""?
+                    <p>Aun no existe historial de reuniones</p>
+                    : 
+                    notasViejas.map((item, index) => (<NotasAnteriores item={item} key={index} />)) 
+                }    
+            </div>
         </div>
     </div>
 }

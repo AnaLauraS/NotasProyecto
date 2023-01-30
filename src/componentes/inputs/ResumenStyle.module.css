@@ -30,6 +30,7 @@
     gap: 10px;
     padding-bottom: 10px;
     align-items: center;
+    overflow-y: scroll;
    }
    
    .card2:hover {
@@ -46,6 +47,66 @@
     box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.30);
    }
 
+
+/****************************/
+  /* seccion de notas viejas */
+  /*************************/
+
+.notasAnteriores {
+  width: 100%;
+  height: 100%;
+  max-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.contenedorNota {
+  width: 90%;
+}
+.fechaA {
+  position: relative;
+  border-radius: 3px;
+  overflow: hidden;
+  text-align: center;
+}
+.fechaA .fechaA {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 12px;
+  color: rgb(106, 121, 26);
+  font-weight: 500;
+  pointer-events: none;
+}
+.fechaA input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 0;
+  font-family: inherit;
+  padding: 10px 0px 10px 20px;
+  height: 56px;
+  font-size: 14px;
+  font-weight: 400;
+  background: rgba(93, 165, 97, 0.103);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  color: rgb(170, 170, 170);
+  transition: all 0.15s ease;
+  text-align: center;
+  width: 100%;
+}
+.inpA textarea {
+  width: 100%;
+}
+ .fechaA input:hover {
+  background: rgba(93, 165, 97, 0.103);
+ }
+.inpA textarea:hover {
+  background: none;
+ }
+/*********************/
+/*fin de notas viejas*/
+/*********************/
 
 
 .cabecera {
@@ -133,13 +194,13 @@ textarea {
   padding-top: 15px;
   overflow-y: auto;
 } 
-textarea::-webkit-scrollbar {
+textarea::-webkit-scrollbar, div::-webkit-scrollbar {
   width: 0.5em;
 }
-textarea::-webkit-scrollbar-track {
+textarea::-webkit-scrollbar-track, div::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
-textarea::-webkit-scrollbar-thumb {
+textarea::-webkit-scrollbar-thumb, div::-webkit-scrollbar-thumb {
 background-color: rgb(93 24 220);
 outline: 1px solid slategrey;
 }

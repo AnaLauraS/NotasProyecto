@@ -1,3 +1,5 @@
+import NotasAnteriores from "./NotasAnteriores";
+
 export function actualizarFecha(fecha) {
     let cuadro = document.querySelector('#'+fecha);
     cuadro.value = new Date(Date.now()).toISOString().split('T')[0];

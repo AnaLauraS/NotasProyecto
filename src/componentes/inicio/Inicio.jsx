@@ -1,5 +1,5 @@
 import InicioEstilos from './InicioStyle.module.css'
-import { arrayVolumen, notaDuplicada, nuevaNota, resetearInputs, validacionNombre } from "../inputs/funciones"
+import { arrayVolumen, notaDuplicada, nuevaNota, renderizarNotas, resetearInputs, validacionNombre } from "../inputs/funciones"
 import { ArchivoContext, GuardarContext } from "../../context/ArchivoContext";
 import { React, useContext } from "react"
 import Swal from 'sweetalert2'
@@ -167,7 +167,9 @@ export default function Inicio () {
         document.querySelector('#brm').value = dato.resumen.BRM;
         document.querySelector('#fechaBeneficios').value = dato.beneficios.ultimaAct;
         document.querySelector('#beneficios').value = dato.beneficios.detalle;
+        document.querySelector('#notas').value = "";
         // hacer lo de volumen y lo de notas anteriores
+
     }
 
     // si no hay cambios o si no le importa los cambios, abro un nuevo proyecto
@@ -214,7 +216,6 @@ export default function Inicio () {
                 lector.onload = function(e) {
                     var contenido = JSON.parse(e.target.result);
                     cargaContextArchivo(contenido);
-                    console.log(archivo);
                 };
                 lector.readAsText(json);
             } else return "error";
