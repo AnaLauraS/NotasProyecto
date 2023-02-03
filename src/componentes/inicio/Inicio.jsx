@@ -1,11 +1,10 @@
 import InicioEstilos from './InicioStyle.module.css'
-import { arrayVolumen, notaDuplicada, nuevaNota, renderizarNotas, resetearInputs, validacionNombre } from "../inputs/funciones"
+import './loaderStyle.css'
+import { arrayVolumen, loaderActive, loaderDesactive, notaDuplicada, nuevaNota, renderizarNotas, resetearInputs, validacionNombre } from "../inputs/funciones"
 import { ArchivoContext, GuardarContext } from "../../context/ArchivoContext";
-import { React, useContext } from "react"
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState, React, useContext } from 'react';
 
 export default function Inicio () {
 
@@ -14,20 +13,12 @@ export default function Inicio () {
     const [ esperandoGuardar, setEsperandoGuardar ] = useState(false);
     const [ listoParaGuardar, setListoParaGuardar ] = useState(false);
     const [ podemosBorrar, setPodemosBorrar ] = useState(false);
+    const [ podemosImportar, setPodemosImportar ] = useState(false);
     const MySwal = withReactContent(Swal);
 
     // useEffect y funciones para guardar archivos
     useEffect(() =>{
         let volumenAingresar = arrayVolumen();
-        if (volumenAingresar.length>0){
-            setArchivo({
-                ...archivo,
-                volumen: {
-                    ultimaAct: new Date(Date.now()).toISOString().split('T')[0],
-                    volumen: volumenAingresar
-                }
-            }); 
-        }
         let notaAingresar = nuevaNota();
         if (notaDuplicada(archivo.notas, notaAingresar)===false) {
             if (notaAingresar!==undefined){
@@ -68,6 +59,14 @@ export default function Inicio () {
                     }
                 }
             }
+        } else if (volumenAingresar.length>0){
+            setArchivo({
+                ...archivo,
+                volumen: {
+                    ultimaAct: new Date(Date.now()).toISOString().split('T')[0],
+                    volumen: volumenAingresar
+                }
+            }); 
         }
         setListoParaGuardar(!listoParaGuardar)       
     }, [esperandoGuardar])
@@ -86,15 +85,20 @@ export default function Inicio () {
             URL.revokeObjectURL(url);
 
             setGuardar(false)
-            MySwal.fire({
-                title: <p>Proyecto guardado con el nombre "{nombreArchivo}.txt"</p>,
-                background: 'black',
-            })
+            if (podemosImportar===false) {
+                MySwal.fire({
+                    title: <p>Proyecto guardado con el nombre "{nombreArchivo}.txt"</p>,
+                    background: 'black',
+                })
+            }
 
             if (podemosBorrar){
                 resetearInputs()
                 reseteoContextArchivo()
                 setPodemosBorrar(false);
+            }
+            if (podemosImportar){
+                leerJson();
             }
         }
     }, [listoParaGuardar])
@@ -202,15 +206,46 @@ export default function Inicio () {
         }
     }
 
+    // Consulto primero si tiene cambios para guardar. Sino, puede cargar nuevo archivo
+    function abrirProyecto () {
+        loaderActive()
+        if (guardar===true){
+            MySwal.fire({
+                title: <p>Tenes cambios sin guardar. ¿Guardamos?</p>,
+                icon: 'question',
+                iconColor: 'orange',
+                showCancelButton: true,
+                showDenyButton: true,
+                confirmButtonText: "SÍ, guardemos",
+                denyButtonText: "NO, borrá todo",
+                cancelButtonText: "Cancelar",
+                background: 'black',
+            })
+            .then((result)=>{
+                if (result.isConfirmed) {
+                    setPodemosImportar(true);
+                    exportar();
+                } else if (result.isDenied) {
+                    setPodemosImportar(true);
+                    setGuardar(false)
+                    leerJson();
+                }
+            })
+        } else {
+            setPodemosImportar(true);
+            leerJson()
+        }
+    }
+
     // funcion para cargar json existente
-    function prueb () {
+    function leerJson () {
         var input = document.createElement('input');
         input.type = 'file';
         input.accept= 'text/plain'
         input.click();
         input.onchange= () => {
             let json = input.files[0];
-            if (!json) return;
+            if (!json) return ;
             if (json.type==="text/plain") {
                 var lector = new FileReader();
                 lector.onload = function(e) {
@@ -218,9 +253,13 @@ export default function Inicio () {
                     cargaContextArchivo(contenido);
                 };
                 lector.readAsText(json);
-            } else return "error";
+                setTimeout(()=>loaderDesactive(),500)
+            } else {
+                loaderDesactive();
+                return "error";
+            }
         }
-
+        setPodemosImportar(false);
     }
 
 
@@ -228,7 +267,7 @@ export default function Inicio () {
         return (
             <div className={InicioEstilos.divisor}>
                 <button className={InicioEstilos.botonG} onClick={()=>{setArchivo({...archivo, proceso:""})}}>Nuevo proyecto</button>
-                <button className={InicioEstilos.botonG} onClick={prueb}>Abrir proyecto</button>
+                <button className={InicioEstilos.botonG} onClick={abrirProyecto}>Abrir proyecto</button>
             </div>
         )
     } else {
@@ -236,7 +275,7 @@ export default function Inicio () {
             <div className={InicioEstilos.divisor}>
                 <button className={InicioEstilos.boton} onClick={crearNuevo}>Nuevo proyecto</button>
                 <button className={InicioEstilos.botonG} onClick={()=>exportar()}>guardar</button>
-                <button className={InicioEstilos.boton} onClick={prueb}>Abrir proyecto</button>
+                <button className={InicioEstilos.boton} onClick={abrirProyecto}>Abrir proyecto</button>
             </div>
         )
     }    
