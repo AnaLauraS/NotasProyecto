@@ -147,16 +147,3 @@ export function resetearInputs () {
         inputs2[i].value=""
     }
 }
-
-// traigo y elimino el loader
-export function loaderActive () {
-    let raiz = document.querySelector('#root');
-    let span22 = Object.assign(document.createElement('div'),
-        {id: "algo",
-        className: "loader"})
-    raiz.appendChild(span22)
-}
-export function loaderDesactive () {
-    let raiz = document.querySelector('#algo');
-    raiz.remove()
-}

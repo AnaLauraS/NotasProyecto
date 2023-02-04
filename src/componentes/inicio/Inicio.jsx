@@ -1,6 +1,5 @@
 import InicioEstilos from './InicioStyle.module.css'
-import './loaderStyle.css'
-import { arrayVolumen, loaderActive, loaderDesactive, notaDuplicada, nuevaNota, renderizarNotas, resetearInputs, validacionNombre } from "../inputs/funciones"
+import { arrayVolumen, notaDuplicada, nuevaNota, renderizarNotas, resetearInputs, validacionNombre } from "../inputs/funciones"
 import { ArchivoContext, GuardarContext } from "../../context/ArchivoContext";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -15,6 +14,7 @@ export default function Inicio () {
     const [ podemosBorrar, setPodemosBorrar ] = useState(false);
     const [ podemosImportar, setPodemosImportar ] = useState(false);
     const MySwal = withReactContent(Swal);
+
 
     // useEffect y funciones para guardar archivos
     useEffect(() =>{
@@ -208,7 +208,6 @@ export default function Inicio () {
 
     // Consulto primero si tiene cambios para guardar. Sino, puede cargar nuevo archivo
     function abrirProyecto () {
-        loaderActive()
         if (guardar===true){
             MySwal.fire({
                 title: <p>Tenes cambios sin guardar. ¿Guardamos?</p>,
@@ -234,8 +233,9 @@ export default function Inicio () {
         } else {
             setPodemosImportar(true);
             leerJson()
+            }
         }
-    }
+    
 
     // funcion para cargar json existente
     function leerJson () {
@@ -245,7 +245,7 @@ export default function Inicio () {
         input.click();
         input.onchange= () => {
             let json = input.files[0];
-            if (!json) return ;
+            if (!json) setPodemosImportar(false); ;
             if (json.type==="text/plain") {
                 var lector = new FileReader();
                 lector.onload = function(e) {
@@ -253,10 +253,12 @@ export default function Inicio () {
                     cargaContextArchivo(contenido);
                 };
                 lector.readAsText(json);
-                setTimeout(()=>loaderDesactive(),500)
             } else {
-                loaderDesactive();
-                return "error";
+                MySwal.fire({
+                    title: <p>No elegiste el formato correcto.</p>,
+                    text: 'Recordá que solo abrimos archivos .txt',
+                    background: 'black',
+                });
             }
         }
         setPodemosImportar(false);
