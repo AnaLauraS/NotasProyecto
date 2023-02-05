@@ -1,5 +1,5 @@
 import InicioEstilos from './InicioStyle.module.css'
-import { arrayVolumen, notaDuplicada, nuevaNota, renderizarNotas, resetearInputs, validacionNombre } from "../inputs/funciones"
+import { agregarVolumen, arrayVolumen, notaDuplicada, nuevaNota, poblarVolumen, resetearCantidadVolumen, resetearInputs, validacionNombre } from "../inputs/funciones"
 import { ArchivoContext, GuardarContext } from "../../context/ArchivoContext";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -84,6 +84,9 @@ export default function Inicio () {
             a.click();
             URL.revokeObjectURL(url);
 
+            //la nota que estaba pasa al historial
+            document.querySelector('#notas').value="";
+
             setGuardar(false)
             if (podemosImportar===false) {
                 MySwal.fire({
@@ -94,6 +97,7 @@ export default function Inicio () {
 
             if (podemosBorrar){
                 resetearInputs()
+                resetearCantidadVolumen();
                 reseteoContextArchivo()
                 setPodemosBorrar(false);
             }
@@ -171,9 +175,23 @@ export default function Inicio () {
         document.querySelector('#brm').value = dato.resumen.BRM;
         document.querySelector('#fechaBeneficios').value = dato.beneficios.ultimaAct;
         document.querySelector('#beneficios').value = dato.beneficios.detalle;
+        document.querySelector('#fechaVolumen').value = dato.volumen.ultimaAct;
         document.querySelector('#notas').value = "";
-        // hacer lo de volumen y lo de notas anteriores
-
+        // poblamos volumen
+        resetearCantidadVolumen()
+        console.log(archivo.volumen)
+        console.log(dato.volumen)
+        console.log(dato.volumen.volumen)
+        let arrayVol = document.querySelectorAll('#conjuntoVolumen > div.conj');
+        arrayVol[0].children[0].querySelector('#op').value = dato.volumen.volumen[0].cantidadEjecuciones;
+        arrayVol[0].children[0].querySelector('#tiempo').value = dato.volumen.volumen[0].tiempoDedicado;
+        arrayVol[0].children[1].querySelector('#obs').value = dato.volumen.volumen[0].observaciones;
+        if (dato.volumen.volumen.length>1){
+            for (let i=1; i < dato.volumen.volumen.length; i++){
+                agregarVolumen()
+                poblarVolumen(dato.volumen, i)
+            }
+        }
     }
 
     // si no hay cambios o si no le importa los cambios, abro un nuevo proyecto
@@ -196,11 +214,13 @@ export default function Inicio () {
                     exportar()
                 } else if (result.isDenied) {
                     resetearInputs()
+                    resetearCantidadVolumen()
                     reseteoContextArchivo()
                     setGuardar(false)
                 }
             })
         } else {
+            resetearCantidadVolumen()
             resetearInputs()
             reseteoContextArchivo()
         }
@@ -234,8 +254,7 @@ export default function Inicio () {
             setPodemosImportar(true);
             leerJson()
             }
-        }
-    
+    }
 
     // funcion para cargar json existente
     function leerJson () {
@@ -269,14 +288,14 @@ export default function Inicio () {
         return (
             <div className={InicioEstilos.divisor}>
                 <button className={InicioEstilos.botonG} onClick={()=>{setArchivo({...archivo, proceso:""})}}>Nuevo proyecto</button>
-                <button className={InicioEstilos.botonG} onClick={abrirProyecto}>Abrir proyecto</button>
+                <button className={InicioEstilos.botonG} onClick={()=>{setArchivo({...archivo, proceso:""}); abrirProyecto()}}>Abrir proyecto</button>
             </div>
         )
     } else {
         return (
             <div className={InicioEstilos.divisor}>
                 <button className={InicioEstilos.boton} onClick={crearNuevo}>Nuevo proyecto</button>
-                <button className={InicioEstilos.botonG} onClick={()=>exportar()}>guardar</button>
+                <button className={InicioEstilos.botonG} onClick={exportar}>guardar</button>
                 <button className={InicioEstilos.boton} onClick={abrirProyecto}>Abrir proyecto</button>
             </div>
         )

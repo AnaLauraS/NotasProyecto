@@ -147,3 +147,19 @@ export function resetearInputs () {
         inputs2[i].value=""
     }
 }
+
+// limpar la cantidad de entradas para volumen
+export function resetearCantidadVolumen () {
+    let arrayConj=document.querySelectorAll(".conj");
+    for (let i=1; i < arrayConj.length ; i++){
+        arrayConj[i].remove();
+    }
+}
+
+// funcion para poblar el volumen
+export function poblarVolumen (dato, i) {  
+    let arrayVol = document.querySelectorAll('#conjuntoVolumen > div.conj');
+    arrayVol[i].children[0].querySelector('#op').value = dato.volumen[i].cantidadEjecuciones;
+    arrayVol[i].children[0].querySelector('#tiempo').value = dato.volumen[i].tiempoDedicado;
+    arrayVol[i].children[1].querySelector('#obs').value = dato.volumen[i].observaciones;
+}
