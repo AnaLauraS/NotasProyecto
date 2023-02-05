@@ -19,6 +19,15 @@ export default function Inicio () {
     // useEffect y funciones para guardar archivos
     useEffect(() =>{
         let volumenAingresar = arrayVolumen();
+        if (volumenAingresar.length>0){
+            setArchivo({
+                ...archivo,
+                volumen: {
+                    ultimaAct: new Date(Date.now()).toISOString().split('T')[0],
+                    volumen: volumenAingresar
+                }
+            })
+        }
         let notaAingresar = nuevaNota();
         if (notaDuplicada(archivo.notas, notaAingresar)===false) {
             if (notaAingresar!==undefined){
@@ -58,7 +67,7 @@ export default function Inicio () {
                         })
                     }
                 }
-            }
+            } 
         } else if (volumenAingresar.length>0){
             setArchivo({
                 ...archivo,
