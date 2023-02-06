@@ -15,7 +15,6 @@ export default function Inicio () {
     const [ podemosImportar, setPodemosImportar ] = useState(false);
     const MySwal = withReactContent(Swal);
 
-
     // useEffect y funciones para guardar archivos
     useEffect(() =>{
         let volumenAingresar = arrayVolumen();
@@ -188,9 +187,6 @@ export default function Inicio () {
         document.querySelector('#notas').value = "";
         // poblamos volumen
         resetearCantidadVolumen()
-        console.log(archivo.volumen)
-        console.log(dato.volumen)
-        console.log(dato.volumen.volumen)
         let arrayVol = document.querySelectorAll('#conjuntoVolumen > div.conj');
         arrayVol[0].children[0].querySelector('#op').value = dato.volumen.volumen[0].cantidadEjecuciones;
         arrayVol[0].children[0].querySelector('#tiempo').value = dato.volumen.volumen[0].tiempoDedicado;
@@ -277,9 +273,22 @@ export default function Inicio () {
             if (json.type==="text/plain") {
                 var lector = new FileReader();
                 lector.onload = function(e) {
-                    var contenido = JSON.parse(e.target.result);
-                    cargaContextArchivo(contenido);
-                };
+                    try {
+                        var contenido = JSON.parse(e.target.result);
+                        cargaContextArchivo(contenido)
+                    }
+                    catch (e) {
+                        if (e instanceof SyntaxError) {
+                            MySwal.fire({
+                                title: <p>No elegiste el formato correcto.</p>,
+                                text: 'Recordá que solo abrimos archivos generados previamente por esta aplicación',
+                                background: 'black'
+                            })
+                        } else {
+                            throw e;
+                        }
+                    }
+                }
                 lector.readAsText(json);
             } else {
                 MySwal.fire({
